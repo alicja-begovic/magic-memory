@@ -1,13 +1,20 @@
 import { useState } from "react";
+import cover from "./img/cover.png";
+import helmet from "./img/helmet-1.png";
+import potion from "./img/potion-1.png";
+import ring from "./img/ring-1.png";
+import scroll from "./img/scroll-1.png";
+import shield from "./img/shield-1.png";
+import sword from "./img/sword-1.png";
 import "./App.css";
 
 const cardImages = [
-  { src: "./img/helmet-1.png" },
-  { src: "./img/potion-1.png" },
-  { src: "./img/ring-1.png" },
-  { src: "./img/scroll-1.png" },
-  { src: "./img/shield-1.png" },
-  { src: "./img/sword-1.png" },
+  { src: helmet },
+  { src: potion },
+  { src: ring },
+  { src: scroll },
+  { src: shield },
+  { src: sword },
 ];
 
 function App() {
@@ -35,7 +42,7 @@ function App() {
           <div className="card" key={card.id}>
             <div>
               <img className="front" src={card.src} alt="card front" />
-              <img className="back" src="./img/cover.png" alt="card back" />
+              <img className="back" src={cover} alt="card back" />
             </div>
           </div>
         ))}
