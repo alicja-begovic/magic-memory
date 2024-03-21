@@ -57,4 +57,6 @@ export default App;
 
 const shuffleCards = [...cardImages, ...cardImages]; - writing two times making two the same arrays (because we need 1 pair of each picture)
 
+przerobić filmiki od 4 - 9
+
 */
