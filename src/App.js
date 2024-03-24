@@ -9,12 +9,12 @@ import "./App.css";
 import SingleCard from "./components/SingleCard";
 
 const cardImages = [
-  { src: helmet },
-  { src: potion },
-  { src: ring },
-  { src: scroll },
-  { src: shield },
-  { src: sword },
+  { src: helmet, matched: false },
+  { src: potion, matched: false },
+  { src: ring, matched: false },
+  { src: scroll, matched: false },
+  { src: shield, matched: false },
+  { src: sword, matched: false },
 ];
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
   const [turns, setTurns] = useState(0);
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
+  const [disabled, setDisabled] = useState(false);
 
   //shuffle cards
   const shuffleCards = () => {
@@ -40,23 +41,34 @@ function App() {
 
   //compare 2 selected cards
   useEffect(() => {
-    if(choiceOne && choiceTwo) {
-      if(choiceOne.src === choiceTwo.src) {
-        console.log("Correct");
-        resetTurns();
+    if (choiceOne && choiceTwo) {
+      setDisabled(true);
+      if (choiceOne.src === choiceTwo.src) {
+        setCards((prevCards) => {
+          return prevCards.map((card) => {
+            if (card.src === choiceOne.src) {
+              return { ...card, matched: true };
+            } else {
+              return card;
+            }
+          });
+        });
+        resetTurn();
       } else {
-        console.log("Incorrect")
-        resetTurns();
+        setTimeout(() => resetTurn(), 1000);
       }
     }
-  }, [choiceOne, choiceTwo])
+  }, [choiceOne, choiceTwo]);
+
+  console.log(cards);
 
   //reset choices & increase turn
-  const resetTurns = () => {
+  const resetTurn = () => {
     setChoiceOne(null);
     setChoiceTwo(null);
-    setTurns(prevTurns => prevTurns + 1);
-  }
+    setTurns((prevTurns) => prevTurns + 1);
+    setDisabled(false);
+  };
 
   return (
     <div className="App">
@@ -64,7 +76,13 @@ function App() {
       <button onClick={shuffleCards}>New Game</button>
       <div className="card-grid">
         {cards.map((card) => (
-          <SingleCard key={card.id} card={card} handleChoice={handleChoice} />
+          <SingleCard
+            key={card.id}
+            card={card}
+            handleChoice={handleChoice}
+            flipped={card === choiceOne || card === choiceTwo || card.matched}
+            disabled={disabled}
+          />
         ))}
       </div>
     </div>
